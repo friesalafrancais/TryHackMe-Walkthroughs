@@ -87,6 +87,59 @@ Open up burp suite, start a temporary project, and use burp defaults.
 
 If you are on the attackBOX for tryhackme your firefox will have an addon called foxyproxy. It will have been configured to work with burp suite.
 
-If you are using your own machine and are using a VPN to work on this room, check out this [Guide](https://null-byte.wonderhowto.com/how-to/use-burp-foxyproxy-easily-switch-between-proxy-settings-0196630/) guide.
+Turn on firefox, and click on the foxyproxy icon on the top right and select the green burp option. Your burp suite will now intercept your traffic.
 
 ![image](https://user-images.githubusercontent.com/115602464/195750364-fc218588-a37e-4579-8d5a-188181b8b6ce.png)
+
+If you are using your own machine and are using a VPN to work on this room, check out this [Guide](https://null-byte.wonderhowto.com/how-to/use-burp-foxyproxy-easily-switch-between-proxy-settings-0196630/).
+
+Once that is on, go to the squirrelmail login form, enter milesdyson for user and enter any random characters for pass. Check your proxy tab inside burp. There should be a POST request that looks like this:
+
+![image](https://user-images.githubusercontent.com/115602464/195753047-94590f91-cc27-443d-a2a9-9ea4f51f0e13.png)
+
+Right click on this and send it to intruder. Hit clear on the right side. We need to select the location in the request that will be attacked with intruder.
+
+In this case we assume we know the correct username, milesdyson, so we just need to get the correct password.
+
+Highlight the password that you typed in earlier in the login form and click the ADD button on the right side. 
+
+Your request should only have the password part of the form highlighted with symbols around your pass:
+
+![image](https://user-images.githubusercontent.com/115602464/195753133-878f7c15-7c64-4a54-b503-8d62583eb2b6.png)
+
+Click on the payloads tab at the top, highlight and copy all of the passwords in the log1.txt file, and paste them into the payload options section.
+
+![image](https://user-images.githubusercontent.com/115602464/195753604-3c1e0c57-f641-444a-8575-819ec0853f33.png)
+
+Your attack is ready, just hit start attack at the top right of burp!
+
+You should notice fairly quickly that there is one password that stands out. It will stand out because the response code will be different than the rest.
+
+![image](https://user-images.githubusercontent.com/115602464/195754208-60a84a13-ebe3-4411-ae52-fd2ff75da949.png)
+
+Login with milesdyson and your new found password to explore his mail.
+
+We see an email containing an SMB password reset!
+
+Lets use smbclient to login as milesdyson.
+
+```
+smbclient '\\targetmachineIP\milesdyson\' -U milesdyson
+```
+After looking around a bit we can see a notes directory with a file called `important.txt`. Lets `get` the file and `cat` it on our machine.
+
+The contents seem to be a to-do list with the very first item being `Add features to beta CMS /45kra24zxs28v3yd`.
+
+The `/45kra24zxs28v3yd` is a directory. Lets go to `targetmachineIP/45kra24zxs28v3yd`.
+
+![image](https://user-images.githubusercontent.com/115602464/195756477-77cd0b84-afc1-4f8d-a90a-b4ce48a292a2.png)
+
+There doesn't seem to be anything important here. Lets run dirb to find any directories hidden within this one.
+
+```
+dirb http://10.10.209.119/45kra24zxs28v3yd/
+```
+
+![image](https://user-images.githubusercontent.com/115602464/195756685-5b5372c6-bf98-434e-bd5d-29e0c7cc4315.png)
+
+
