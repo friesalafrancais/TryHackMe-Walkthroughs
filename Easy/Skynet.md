@@ -191,6 +191,8 @@ Lets look around a little bit. There is a milesdyson folder in the home director
 
 The user flag is inside user.txt.
 
+# Escalation
+
 The backups folder contains a backup.sh file:
 
 ![image](https://user-images.githubusercontent.com/115602464/195760730-62664aec-e164-4225-9be7-dccf7a976c8d.png)
