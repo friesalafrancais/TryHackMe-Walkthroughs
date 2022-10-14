@@ -56,5 +56,37 @@ The results from enum4linux show us three important pieces of information:
 
 The anonymous share is something we can access without credentials!
 
-Lets get into it using smbclient.
+Lets Access the share using smbclient. We simply provide the IP address of the server and the share we are accessing.
 
+```
+smbclient '\\targetmachineIP\Anonymous\'
+```
+You will be asked for a root password, hit enter and you're logged in as Anonymous!
+
+![image](https://user-images.githubusercontent.com/115602464/195746239-a5cc15e7-0dc1-422d-8cb7-e1e99e0fb4a1.png)
+
+We can download the attention.txt file with `get attention.txt`.
+
+Let's also `cd` into logs and `get` the log1.txt. We will not download log2.txt and log3.txt because we see they are empty.
+
+They will be in the pwd directory of your terminal. Simply run `quit` to exit smbclient.
+
+Lets open up all of the files and see their contents. .
+
+![image](https://user-images.githubusercontent.com/115602464/195748875-eaa4de15-1157-4543-b016-778f1b2adaee.png)
+
+![image](https://user-images.githubusercontent.com/115602464/195748923-5a8f30b5-2b09-4b54-85cc-a6e9a01bb3a8.png)
+
+We can see that there is a user named Miles Dyson, which we enumerated earlier with enum4linux, and log1.txt contained what seems to be a password list.
+
+The list is fairly short in this case and you could manually try the passwords one by one, but let's go through the process as if the list contained a much larger password count.
+
+The two similar tools I use in this situation is Hydra and burp suite intruder. In this case I chose burp suite.
+
+Open up burp suite, start a temporary project, and use burp defaults. 
+
+If you are on the attackBOX for tryhackme your firefox will have an addon called foxyproxy. It will have been configured to work with burp suite.
+
+If you are using your own machine and are using a VPN to work on this room, check out this [Guide](https://null-byte.wonderhowto.com/how-to/use-burp-foxyproxy-easily-switch-between-proxy-settings-0196630/) guide.
+
+![image](https://user-images.githubusercontent.com/115602464/195750364-fc218588-a37e-4579-8d5a-188181b8b6ce.png)
