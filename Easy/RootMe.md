@@ -60,23 +60,21 @@ Head over to targetmachineIP/panel/
 
 ![image](https://user-images.githubusercontent.com/115602464/197354106-7853af06-dc6d-44a7-9468-c6fc3eef0c97.png)
 
-Once here we can see that we are given an upload form. 
+We are given an upload form. 
 
 The hint is really helpful here, we need a php reverse shell.
 
 The idea here is that because we are able to access the upload form AND /uploads/, we can upload a reverse shell file and execute it by accessing it in /uploads/. This would give us a reverse shell into the system as a low privilege user.
 
-Lets head to [RevShells](https://www.revshells.com).
-
-Once here, we want to use the IP address of our attacker machine and a port of our choosing, lets use 4444.
+Lets head to [RevShells](https://www.revshells.com). We want to use the IP address of our attacker machine and a port of our choosing, lets use 4444.
 
 We can find our own IP by utilizing `ifconfig`.
 
 ![image](https://user-images.githubusercontent.com/115602464/197353522-cecff534-10ea-4e20-aa95-adcc7d03c281.png)
 
-Look for eth0 within the ifconfig output. The inet address here is what we will use for our reverse shell.
+Look for eth0 within the ifconfig output. The inet address is our machines IP.
 
-We also want to select which reverse shell we want to use. In this case, because I have previous experience with it, I chose `PHP PentestMonkey`.
+Lets select a reverse shell. I have previous experience with it so I chose `PHP PentestMonkey`.
 
 Our page should look something like this, with the IP adjusted to your machines IP.
 
