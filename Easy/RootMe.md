@@ -3,7 +3,7 @@
 > Difficulty: Easy
 # Task 1
 
-Deploy your machine!
+  Deploy your machine!
 
 # Task 2
 
