@@ -18,15 +18,15 @@ nmap -sV targetmachineIP
 
 ![image](https://user-images.githubusercontent.com/115602464/197348592-c75191b5-c5de-422d-9507-7ac67040a0c7.png)
 
-We can see two ports are open. Port 22 for SSH and port 80 for a server running Apache 2.4.29.
+We see two open ports. Port 22 for SSH and port 80 for a server running Apache 2.4.29.
 
 ## -What version of Apache is running?
 
-The above image shows that Apache 2.4.29 is running.
+Apache 2.4.29 is running.
 
 ## -What service is running on port 22?
 
-The above image shows that SSH is running on port 22.
+SSH is running on port 22.
 
 ## -Find directories on the web server using the GoBuster tool.
 
@@ -42,7 +42,7 @@ dirb http://10.10.165.210/ /usr/share/wordlists/dirb/big.txt
 
 ![image](https://user-images.githubusercontent.com/115602464/197349682-691cb38b-5499-419b-ab70-715fad6ac21d.png)
 
-We can see a /panel/ directory!
+We discovered a /panel/ directory!
 
 We can see there are two directories that stand out. (/panel/ and /uploads/)
 The reason /panel/ is the one we are interested in is because it brings us to a file upload form.
