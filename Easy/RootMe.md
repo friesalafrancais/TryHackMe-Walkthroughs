@@ -1,9 +1,10 @@
 # [RootMe](https://tryhackme.com/room/rrootme)
 
 > Difficulty: Easy
+> 
 # Task 1
 
-  Deploy your machine!
+Deploy your machine!
 
 # Task 2
 
@@ -55,17 +56,17 @@ Find a form to upload and get a reverse shell, and find the flag.
 
 ## -user.txt
 
-Lets head over to targetmachineIP/panel/
+Head over to targetmachineIP/panel/
 
 ![image](https://user-images.githubusercontent.com/115602464/197354106-7853af06-dc6d-44a7-9468-c6fc3eef0c97.png)
 
 Once here we can see that we are given an upload form. 
 
-The hint is really helpful here in hinting that we need a php reverse shell.
+The hint is really helpful here, we need a php reverse shell.
 
 The idea here is that because we are able to access the upload form AND /uploads/, we can upload a reverse shell file and execute it by accessing it in /uploads/. This would give us a reverse shell into the system as a low privilege user.
 
-Lets head to [RevShells](https://www.revshells.com)
+Lets head to [RevShells](https://www.revshells.com).
 
 Once here, we want to use the IP address of our attacker machine and a port of our choosing, lets use 4444.
 
