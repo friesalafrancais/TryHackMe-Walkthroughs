@@ -89,9 +89,9 @@ We get an error! Checking /uploads/ we can see that our file was not uploaded.
 
 Doing a quick google translate: `PHP is not allowed!`
 
-Looks like the upload form is validating files before they are uploaded. This means that the admin configured the form to not accept files that could be potentially dangerous, such as PHP. Thankfully, there are many ways to prey on misconfigurations and bypass any validation. [hacktricks.xyz](https://book.hacktricks.xyz/pentesting-web/file-upload)
+Looks like the upload form is validating files before they are uploaded. This means that the admin configured the form to not accept files that could be potentially dangerous, such as PHP. Thankfully, there are many ways to prey on misconfigurations and bypass any validation.
 
-This is a great resource for file upload methodologies. Lets go with renaming our file to reverse.php2. The file upload form might be blocking .php but not .php2/3/4/etc.
+[Hacktricks.xyz](https://book.hacktricks.xyz/pentesting-web/file-upload) is a great resource for file upload methodologies. Lets go with renaming our file to reverse.php2. The file upload form might be blocking .php but not .php2/.phps/.shtml/etc.
 
 ![image](https://user-images.githubusercontent.com/115602464/197355701-fb3bb65e-7328-4668-989b-df24916b48bb.png)
 
@@ -101,4 +101,12 @@ Success! Lets check /uploads/ and make sure our file was actually uploaded.
 
 Now that our reverse shell is uploaded, lets setup a listener to intercept the connection from the reverse shell.
 
-+ `dirb`: A listener 
+```nc -lvnp 4444```
++ `nc`: Netcat is a utility for opening/listening to connections using TCP or UDP.
++ `l`: Specifies that netcat should listen for an incoming connection.
++ `v`: Gives a more verbose output.
++ `n`: Avoids any DNS or service lookups on any specified address, hostname or port.
++ `p`: Specifies the source port that netcat should use.
++ `4444`: This is the port we specified for our reverse shell.
+
+With the listener active, lets head to /uploads/ and select our reverse.php2 file.
