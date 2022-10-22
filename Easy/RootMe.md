@@ -91,7 +91,7 @@ Doing a quick google translate: `PHP is not allowed!`
 
 Looks like the upload form is validating files before they are uploaded. This means that the admin configured the form to not accept files that could be potentially dangerous, such as PHP. Thankfully, there are many ways to prey on misconfigurations and bypass any validation.
 
-[Hacktricks.xyz](https://book.hacktricks.xyz/pentesting-web/file-upload) is a great resource for file upload methodologies. Lets go with renaming our file to reverse.phtml. The file upload form might be blocking .php but not .phtml/.phps/.shtml/etc.
+[Hacktricks.xyz](https://book.hacktricks.xyz/pentesting-web/file-upload) is a great resource for file upload bypass methodologies. There are various tactics that can be utilized in this scenario. Lets go with renaming our file to reverse.phtml. The file upload form might be blocking .php but not .phtml/.phps/.shtml/etc.
 
 ![image](https://user-images.githubusercontent.com/115602464/197355701-fb3bb65e-7328-4668-989b-df24916b48bb.png)
 
