@@ -141,7 +141,7 @@ Now that we have a shell, let's escalate our privileges to root.
 We are asked for find files with the SUID permission set. The SUID(Set-user Identification) as well as the group variation(SGID) are permissions that the owner of an executable file can set. These are set so that alternate users can run the file with the same level privileges as the owner/group. [Learn More](https://linuxhint.com/special-permissions-suid-guid-sticky-bit/)
 
 ```find / -user root -perm /4000 2>/dev/null```
-+ `-user`: Specifies that we are searching for files with root as owner.
++ `-user root`: Specifies that we are searching for files with root as owner.
 + `-perm /4000`: Specifies the permissions that we are looking for. We are looking for the SUID which is the 4 in 4000.
 + `2>/dev/null`: Redirects any errors to /dev/null. Cleans up the output so that we don't see any useless information.
 
