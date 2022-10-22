@@ -9,7 +9,7 @@ Deploy your machine!
 
 ## -Scan the machine, how many ports are open?
   
-We run an NMAP with  
+We run an NMAP scan with  
 ```
 nmap -sV targetmachineIP
 ```
@@ -91,13 +91,13 @@ Doing a quick google translate: `PHP is not allowed!`
 
 Looks like the upload form is validating files before they are uploaded. This means that the admin configured the form to not accept files that could be potentially dangerous, such as PHP. Thankfully, there are many ways to prey on misconfigurations and bypass any validation.
 
-[Hacktricks.xyz](https://book.hacktricks.xyz/pentesting-web/file-upload) is a great resource for file upload methodologies. Lets go with renaming our file to reverse.php2. The file upload form might be blocking .php but not .php2/.phps/.shtml/etc.
+[Hacktricks.xyz](https://book.hacktricks.xyz/pentesting-web/file-upload) is a great resource for file upload methodologies. Lets go with renaming our file to reverse.phtml. The file upload form might be blocking .php but not .phtml/.phps/.shtml/etc.
 
 ![image](https://user-images.githubusercontent.com/115602464/197355701-fb3bb65e-7328-4668-989b-df24916b48bb.png)
 
 Success! Lets check /uploads/ and make sure our file was actually uploaded.
 
-![image](https://user-images.githubusercontent.com/115602464/197355730-bd320aad-3ab8-4a87-afad-fcb159a63db0.png)
+![image](https://user-images.githubusercontent.com/115602464/197357416-d21c2a62-d3b8-4d8f-9193-8353b7d9001f.png)
 
 Now that our reverse shell is uploaded, lets setup a listener to intercept the connection from the reverse shell.
 
@@ -109,4 +109,69 @@ Now that our reverse shell is uploaded, lets setup a listener to intercept the c
 + `p`: Specifies the source port that netcat should use.
 + `4444`: This is the port we specified for our reverse shell.
 
-With the listener active, lets head to /uploads/ and select our reverse.php2 file.
+With the listener active, lets head to /uploads/ and select our reverse.phtml file.
+
+![image](https://user-images.githubusercontent.com/115602464/197357524-6d71aff9-c33a-4a1a-b230-7fc1e72251df.png)
+
+Our reverse shell was a success!
+
+![image](https://user-images.githubusercontent.com/115602464/197357545-f4bc7dfe-169c-486f-8c28-4063039c499d.png)
+
+Running `whoami` shows us that we are www-data. This means our privileges are low, but we can still find and access the user.txt file.
+
+We can either search around for the file manually or use the find command.
+
+```find / -iname "user.txt" 2>/dev/null```
++ `find`: Find is a utility that searches for files in the linux directory hierarchy.
++ `/`: Specifies the directory we want to start in. This starts our search in the base / directory and recursively searches all files and folders within.
++ `-iname`: Allows us to specify the file name same as -name but is case insensitive.
++ `2>/dev/null`: Redirects any errors to /dev/null. Cleans up the output so that we don't see any useless information.
+
+![image](https://user-images.githubusercontent.com/115602464/197357679-d5ebf36a-7d9c-4479-aef1-a9c2ff04f2d4.png)
+
+`cat` the file to get your user flag. 🚩
+
+# Task 4
+Now that we have a shell, let's escalate our privileges to root.
+
+## -Search for files with SUID permission, which file is weird?
+<sub>Hint: find / -user root -perm /4000</sub>
+
+We are asked for find files with the SUID permission set. The SUID(Set-user Identification) as well as the group variation(SGID) are permissions that the owner of an executable file can set so that alternate users can run it with privileges of the owner/group. [Learn More](https://linuxhint.com/special-permissions-suid-guid-sticky-bit/)
+
+```find / -user root -perm /4000 2>/dev/null```
++ `-user`: Specifies that we are searching for files with root as owner.
++ `-perm /4000`: Specifies the permissions that we are looking for. We are looking for the SUID which is the 4 in 4000.
++ `2>/dev/null`: Redirects any errors to /dev/null. Cleans up the output so that we don't see any useless information.
+
+![image](https://user-images.githubusercontent.com/115602464/197358826-e05c7b29-35f3-4919-a343-851562504429.png)
+
+Python has the SUID/GUID permissions set. This pops out because having root access to python on the system opens up a lot of possibilities.
+
+## -Find a form to escalate your privileges.
+<sub>Hint: Search for gtfobins</sub>
+
+[GTFObins](https://gtfobins.github.io) is a list of binaries that we can use to bypass security restrictions and misconfigured systems.
+Typically if we have SUID/GUID set or sudo permissions on a binary we can use GTFObins to exploit it.
+
+![image](https://user-images.githubusercontent.com/115602464/197359044-2e342585-ab82-4f8e-9875-47997e4f6541.png)
+
+Looks like we have to execute python, indicated by ./python, with some options.
+Lets `cd` into the /usr/bin directory, this is where the python binary is located.
+
+Run the command under python/SUID section on GTFObins.
+
+```./python -c 'import os; os.execl("/bin/sh","sh","-p")'```
+
+
+![image](https://user-images.githubusercontent.com/115602464/197359142-8ab969c5-9411-4ff6-882b-eddd3c8289e9.png)
+
+We're in!
+
+## -root.txt
+
+Lets CD into the root directory.
+
+![image](https://user-images.githubusercontent.com/115602464/197359477-4567f062-d290-405a-97ae-23b36418de21.png)
+
+`cat` the root.txt file to get your flag!
