@@ -138,7 +138,7 @@ Now that we have a shell, let's escalate our privileges to root.
 ## -Search for files with SUID permission, which file is weird?
 <sub>Hint: find / -user root -perm /4000</sub>
 
-We are asked for find files with the SUID permission set. The SUID(Set-user Identification) as well as the group variation(SGID) are permissions that the owner of an executable file can set so that alternate users can run it with privileges of the owner/group. [Learn More](https://linuxhint.com/special-permissions-suid-guid-sticky-bit/)
+We are asked for find files with the SUID permission set. The SUID(Set-user Identification) as well as the group variation(SGID) are permissions that the owner of an executable file can set. These are set so that alternate users can run the file with the same level privileges as the owner/group. [Learn More](https://linuxhint.com/special-permissions-suid-guid-sticky-bit/)
 
 ```find / -user root -perm /4000 2>/dev/null```
 + `-user`: Specifies that we are searching for files with root as owner.
@@ -147,7 +147,7 @@ We are asked for find files with the SUID permission set. The SUID(Set-user Iden
 
 ![image](https://user-images.githubusercontent.com/115602464/197358826-e05c7b29-35f3-4919-a343-851562504429.png)
 
-Python has the SUID/GUID permissions set. This pops out because having root access to python on the system opens up a lot of possibilities.
+Python has the SUID/GUID permissions set. This stands out due to python being extremely versatile, especially with root level access.
 
 ## -Find a form to escalate your privileges.
 <sub>Hint: Search for gtfobins</sub>
