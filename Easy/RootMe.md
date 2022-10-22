@@ -174,4 +174,4 @@ Lets CD into the root directory.
 
 ![image](https://user-images.githubusercontent.com/115602464/197359477-4567f062-d290-405a-97ae-23b36418de21.png)
 
-`cat` the root.txt file to get your flag!
+`cat` the root.txt file to get your flag! 🚩
