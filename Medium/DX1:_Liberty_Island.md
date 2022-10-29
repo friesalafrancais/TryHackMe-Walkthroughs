@@ -69,8 +69,44 @@ Now we can utilize dirb again to scan for any directories that exist using those
 We come back with 5 hits: /0011/, /0068/, /0103/, /0233/, and /0451/.
 
 0011, 0068, 0103, and 0233 don't give us any important information on the pages or the page sources.
+
+/0451/ is more useful though.
+  
+![image](https://user-images.githubusercontent.com/115602464/198855100-51ad5257-b91a-47a8-b28b-a258e1faacff.png)
   
   
+On this page we are given two important pieces of information.
+  
+The `login` for VNC is "smashthestate", hmac'ed with a username from the cyberterrorist list we saw earlier at /badactors.html.
+
+The `password` for VNC is the first 8 characters of the login hash. The algorithm used is md5.
+  
+![image](https://user-images.githubusercontent.com/115602464/198855226-6f7378bf-506b-4659-8a42-00c7ed809a28.png)
+  
+Specially the hmac key is "my username". The message is written by JL. Looking at the cyberterrorist list we can assume `jlebedev` is the correct username.
+  
+Head over to [CyberChef](https://gchq.github.io/CyberChef/). Search for the HMAC operation on the left side and drag it into the recipe section.
+  
+Select MD5 as your hashing function, UTF8 as the key type, use jlebedev as the key, and smashthestate as the input.
+  
+![image](https://user-images.githubusercontent.com/115602464/198855267-885f1aaa-1560-4b42-97cc-19a5c107348c.png)
+  
+Your hash will be in the output, lets copy the first 8 characters of the hash.
+  
+Lets connect to VNC on our target machine with vncviewer.
+  
+`vncviewer targetmachineIP:5901`
+  
+We are prompted with a VNC authentication window. Enter our 8 character password from cyberchef!
+  
+![image](https://user-images.githubusercontent.com/115602464/198855358-4c952219-db4e-457c-83e7-2b6e81897588.png)
+  
+We have access to the machine with ajacobsons account!
+  
+![image](https://user-images.githubusercontent.com/115602464/198855415-eaa08d39-f44b-44e1-a81d-39eb403ca41e.png)
+  
+Open up user.txt to see your user flag! 🚩
+
 </details>
 
 
