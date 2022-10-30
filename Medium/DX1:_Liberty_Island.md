@@ -196,7 +196,7 @@ We can see that our curl request works successfully! The whoami command returns 
   
 ![image](https://user-images.githubusercontent.com/115602464/198857496-b4b14527-1831-43ca-b9d3-12e03b63475b.png)
 
-We found root.txt! Run the curl command again, except this time change out `ls /root` with `cat /root/root.txt`.
+We found root.txt! Run the curl command again, except this time change out `ls /root with `cat /root/root.txt`.
   
 Congratulations! 🚩
 
