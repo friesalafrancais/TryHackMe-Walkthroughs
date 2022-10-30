@@ -2,6 +2,7 @@
 
 > Difficulty: Easy
 <details>
+  <summary>Scanning</summary>
   
 # Scanning
 We have one flag with a hint that asks us to take a look at the HTTP headers.
@@ -21,6 +22,8 @@ This looks like something we can dig into further and possibly exploit!
 </details>
 
 <details>
+  <summary>Exploitation</summary>
+  
   
 # Exploitation
 
