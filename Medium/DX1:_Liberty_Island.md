@@ -1,4 +1,4 @@
-# [RootMe](https://tryhackme.com/room/rrootme)
+# [RootMe](https://tryhackme.com/room/dx1libertyislandplde)
 
 > Difficulty: Easy
 
@@ -6,6 +6,8 @@
 
 <details>
   <summary>What is the User flag?</summary>
+  
+# NMAP
 
 Run an nmap scan to see what ports are available.
   
@@ -32,7 +34,11 @@ The front page and first two links dont really have anything. The third page, ho
 ![image](https://user-images.githubusercontent.com/115602464/198853764-3f4f7396-42a8-4ac8-b8fa-7f8adc1b17fd.png)
   
 Lets keep this list in mind as it might be useful later.
+
   
+# Dirb
+  
+
 With nothing else standing out, lets run a dirb scan. Dirb is a program that will enumerate directories for us and find directories that were perhaps meant to be hidden.
   
 `dirb http://targetmachineIP/`
@@ -74,7 +80,7 @@ We come back with 5 hits: /0011/, /0068/, /0103/, /0233/, and /0451/.
   
 ![image](https://user-images.githubusercontent.com/115602464/198855100-51ad5257-b91a-47a8-b28b-a258e1faacff.png)
   
-  
+
 On this page we are given two important pieces of information.
   
 The `login` for VNC is "smashthestate", hmac'ed with a username from the cyberterrorist list we saw earlier at /badactors.html.
@@ -85,6 +91,8 @@ The `password` for VNC is the first 8 characters of the login hash. The algorith
   
 Specially the hmac key is "my username". The message is written by JL. Looking at the cyberterrorist list we can assume `jlebedev` is the correct username.
   
+# VNC
+
 Head over to [CyberChef](https://gchq.github.io/CyberChef/). Search for the HMAC operation on the left side and drag it into the recipe section.
   
 Select MD5 as your hashing function, UTF8 as the key type, use jlebedev as the key, and smashthestate as the input.
@@ -103,7 +111,7 @@ We are prompted with a VNC authentication window. Enter our 8 character password
   
 We have access to the machine with ajacobsons account!
   
-![image](https://user-images.githubusercontent.com/115602464/198855415-eaa08d39-f44b-44e1-a81d-39eb403ca41e.png)
+![image](https://user-images.githubusercontent.com/115602464/198855576-7d02c8cd-47a1-43cb-8b8c-d79f4d4366bb.png)
   
 Open up user.txt to see your user flag! 🚩
 
@@ -112,7 +120,80 @@ Open up user.txt to see your user flag! 🚩
 
 <details>
   <summary>What is the Root flag?</summary>
+  
+# Badactors-list
+  
 
-Deploy your machine!
+The desktop of our victim machine has a program called badactors-list. Lets run this.
+  
+The program opens up and we see that its connecting to host UNATCO on port 23023. It gives us the same cyberterrorist list as the website does.
+  
+![image](https://user-images.githubusercontent.com/115602464/198855730-4e4b6015-3f6f-45be-b858-18f8c8604100.png)
+
+Lets take a look at the [/etc/hosts](https://tldp.org/LDP/solrhe/Securing-Optimizing-Linux-RH-Edition-v1.3/chap9sec95.html) file to see what UNATCO is representing.
+
+The hosts file shows us that UNATCO has the ip 127.0.0.1. This is the localhost, or loopback, address. This is a special address that is used only by the host machine itself. It essentially points to itself. What this means is the victim machine has port 23023 open for this special program. When it says syncing with http://UNATCO:23023 it is in fact connecting to itself on port 23023.
+  
+Lets see if we can somehow utilize this to escalate our privileges.
+  
+Lets use python to host a simple HTTP server to get the file over to our attacker machine.
+
+![image](https://user-images.githubusercontent.com/115602464/198855688-e87892a6-d9aa-40ac-b5b5-c7f1223f74d7.png)
+
+We can see that this machine has python3.8 installed. We can use this to our advantage to move the badactors-list program over to our attacker machine!
+  
+Python3.8 has a module called http.server that we can use. [More Info](https://docs.python.org/3.8/library/http.server.html)
+  
+`Python3.8 -m http.server` will run the python server from the `current directory` on the default port `8000`.
+ 
+On our attacker machine, lets head to `http://targetmachineIP:8000/`
+  
+![image](https://user-images.githubusercontent.com/115602464/198855983-133beefd-fcc3-4c26-ab38-3fdf50eaf392.png)
+
+Lets click on badactors-list to download it. It should be downloaded to the /root directory if you are on the attackBOX machine on THM.
+  
+CD into that directory and run chmod to add execute permission to the file. `chmod +x badactors-list`
+  
+Run the program with `./badactors-list` and notice nothing happens!
+  
+This is due to UNATCO not being listed in our `/etc/hosts/` file. Remember that our victim machine had 127.0.0.1 set to UNATCO. This means that if we want the program on OUR attacker machine to connect properly, we will have to set the victims machine as UNATCO in our /etc/hosts file.
+  
+![image](https://user-images.githubusercontent.com/115602464/198856208-5488ce21-14c2-4527-a831-9c6676b0ed8d.png)
+
+Now our program should work!
+  
+Wireshark allows us to analyze traffic entering/exiting our machine. We we use it to understand what the program is doing.
+  
+Once wireshark is opened, select eth0 as the device we want to monitor. You might see a bunch of traffic but don't worry. We will filter it.
+  
+With wireshark opened up, monitoring eth0, open up the program and watch the packets come in! Depending on how much you have going on in the background there could be hundreds or thousands of packets. To solve this we will use display filters. `tcp.port == 23023 && http` will show us specifically packets that are using tcp port 23023 AND the HTTP protocol.
+  
+You should have two packets. Select the one that has your machines IP as the source, and the victim machine as the destination. 
+  
+![image](https://user-images.githubusercontent.com/115602464/198856456-6e8444c4-5e58-4834-90b4-a76f8c7baf5a.png)
+
+Open up the packet. Inside the info box below, open up `Hypertext Transfer Protocol` and `HTML Form URL Encoded`.
+  
+![image](https://user-images.githubusercontent.com/115602464/198856509-90f9d550-de61-4240-bcaa-4d83d2e9321a.png)
+  
+Everything looks normal here besides the Clearance-Code and the Directive form item. It looks like the Clearence-Code is being sent by the program to get authorized access. It then uses the directive key to run a command, in this case it is `cat /var/www/html/badactors.txt`.
+  
+We need to get our own authorized access. Lets open up [Burp Suite](https://portswigger.net/burp).
+  
+Once Burp Suite is open, select the Proxy tab and make sure intercept is on. Open up firefox and eanble foxyproxy addon.
+  
+![image](https://user-images.githubusercontent.com/115602464/198856799-60654833-5ee8-473a-9b3d-19a5d9131bd3.png)
+
+We want to visit `targetmachineIP:23023` on firefox. If your foxyproxy is enabled you should see something similar to this in your proxy tab.
+
+![image](https://user-images.githubusercontent.com/115602464/198856826-2656db9a-113a-4784-aa95-2333402b38bd.png)
+
+Right click on the packet and select "Send to Repeater" and head over to the Repeater tab.
+
+Right click on the packet within Repeater and select "Change request method". This will turn our GET request into a POST request.
+  
+Send the packet and see what we get in return!
+  
+  
 
 </details>
