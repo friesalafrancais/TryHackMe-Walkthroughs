@@ -244,4 +244,4 @@ Great! Lets get the root.txt file and get our last flag!
 ![image](https://user-images.githubusercontent.com/115602464/195762012-08b427cb-439d-4f07-a25a-97d0739a97f1.png)
 
 
-
+</details>
