@@ -1,6 +1,10 @@
 # [Agent T](https://tryhackme.com/room/agentt)
 
 > Difficulty: Easy
+>
+>Agent T uncovered this website, which looks innocent enough, but something seems off about how the server responds...
+
+
 <details>
   <summary>Scanning</summary>
   
