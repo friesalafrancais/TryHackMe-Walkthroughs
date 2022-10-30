@@ -2,6 +2,8 @@
 
 > Difficulty: Easy
 
+The NSF are about to raid Liberty Island to capture the shipment of Ambrosia from UNATCO (The United Nations Anti-Terrorist Coalition). As our top hacker, we need you to gain a root foothold on the UNATCO admin network.
+
 > Open the necessary task below!
 
 <details>
