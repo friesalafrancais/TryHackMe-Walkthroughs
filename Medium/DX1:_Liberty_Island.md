@@ -192,7 +192,7 @@ We will craft our own request using [curl](https://linux.die.net/man/1/curl).
   
 ![image](https://user-images.githubusercontent.com/115602464/198857463-82009970-0d9c-4263-98dc-511254c9d68e.png)
 
-We can see that our curl request works successfully! The whoami command returns `root. Since we are able to execute commands as root, lets peak into the root directory. Change your curl request to include the directive `ls /root`.
+We can see that our curl request works successfully! The whoami command returns `root`. Since we are able to execute commands as root, lets peak into the root directory. Change your curl request to include the directive `ls /root`.
   
 ![image](https://user-images.githubusercontent.com/115602464/198857496-b4b14527-1831-43ca-b9d3-12e03b63475b.png)
 
