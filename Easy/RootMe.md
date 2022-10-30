@@ -1,12 +1,18 @@
 # [RootMe](https://tryhackme.com/room/rrootme)
 
 > Difficulty: Easy
-> 
-# Task 1
+
+> Open the necessary task below!
+
+<details>
+  <summary>Task 1</summary>
 
 Deploy your machine!
 
-# Task 2
+</details>
+
+<details>
+  <summary>Task 2</summary>
 
 ## -Scan the machine, how many ports are open?
   
@@ -48,7 +54,10 @@ We discovered a /panel/ directory!
 We can see there are two directories that stand out. (/panel/ and /uploads/)
 The reason /panel/ is the one we are interested in is because it brings us to a file upload form.
 
-# Task 3
+</details>
+
+<details>
+  <summary>Task 3</summary>
 
 Find a form to upload and get a reverse shell, and find the flag.
 
@@ -129,8 +138,10 @@ We can either search around for the file manually or use the find command.
 ![image](https://user-images.githubusercontent.com/115602464/197357679-d5ebf36a-7d9c-4479-aef1-a9c2ff04f2d4.png)
 
 `cat` the file to get your user flag. 🚩
+</details>
 
-# Task 4
+<details>
+  <summary>Task 4</summary>
 Now that we have a shell, let's escalate our privileges to root.
 
 ## -Search for files with SUID permission, which file is weird?
@@ -174,3 +185,5 @@ Lets CD into the root directory.
 ![image](https://user-images.githubusercontent.com/115602464/197359477-4567f062-d290-405a-97ae-23b36418de21.png)
 
 `cat` the root.txt file to get your flag! 🚩
+
+</details>
