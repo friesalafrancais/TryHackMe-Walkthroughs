@@ -206,7 +206,7 @@ Lets look around a little bit. There is a milesdyson folder in the home director
 
 ![image](https://user-images.githubusercontent.com/115602464/195760575-9c06e4d8-6219-4139-9acd-c3e972f93b7a.png)
 
-The user flag is inside user.txt.
+The user flag is inside user.txt. 🚩
 
 </details>
 
@@ -239,7 +239,7 @@ After a couple of minutes we run `sudo -l`:
 
 ![image](https://user-images.githubusercontent.com/115602464/195761720-4a9a84b6-9183-41e3-a8ba-d12f80c505b4.png)
 
-Great! Lets get the root.txt file and get our last flag!
+Great! Lets get the root.txt file and get our last flag! 🚩
 
 ![image](https://user-images.githubusercontent.com/115602464/195762012-08b427cb-439d-4f07-a25a-97d0739a97f1.png)
 
