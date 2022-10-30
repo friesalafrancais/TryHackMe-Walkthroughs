@@ -2,6 +2,10 @@
 
 > Difficulty: Easy
 
+<details>
+  <summary>Scanning</summary>
+
+
 # Scanning
 We run an NMAP with  
 ```
@@ -15,6 +19,13 @@ nmap -sV targetmachineIP
 Two things pop out to me here. There is a website being hosted on port 80 and samba is running on 139 and 445.
 
 + `Samba`: is a program that allows users to access shared files, printers, and other resources on a company's intranet.
+
+</details>
+  
+  
+<details>
+  <summary>Enumeration</summary>
+
 
 # Enumeration
 
@@ -146,6 +157,12 @@ One of the directories that is found is /administrator.
 
 Visiting /administrator we see a cuppa CMS login. 
 
+</details>
+  
+  
+<details>
+  <summary>Exploitation</summary>  
+  
 # Exploitation
 
 Before trying to attack the login form, lets see if there is an exploit that exists for `Cuppa CMS`.
@@ -191,6 +208,11 @@ Lets look around a little bit. There is a milesdyson folder in the home director
 
 The user flag is inside user.txt.
 
+</details>
+
+<details>
+  <summary>Escalation</summary>
+  
 # Escalation
 
 The backups folder contains a backup.sh file:
