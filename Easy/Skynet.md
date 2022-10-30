@@ -1,6 +1,8 @@
 # [Skynet](https://tryhackme.com/room/skynet)
 
 > Difficulty: Easy
+> 
+> Are you able to compromise this Terminator themed machine?
 
 <details>
   <summary>Scanning</summary>
