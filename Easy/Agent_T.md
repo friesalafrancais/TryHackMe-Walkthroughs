@@ -1,7 +1,8 @@
 # [Agent T](https://tryhackme.com/room/agentt)
 
 > Difficulty: Easy
-
+<details>
+  
 # Scanning
 We have one flag with a hint that asks us to take a look at the HTTP headers.
 We can view the headers by using Curl. Curl is a neat tool that lets us easily communicate with a server from our terminal.
@@ -17,6 +18,10 @@ Curl -I http://targetmachineIP
 Most of the information in the headers seems normal except for X-Powered-By.
 This looks like something we can dig into further and possibly exploit!
 
+</details>
+
+<details>
+  
 # Exploitation
 
 Heading over to exploit-db.com we can search for ```PHP 8.1.0-dev```.
@@ -40,3 +45,5 @@ We can see a flag.txt. Run ```cat /flag.txt``` to view the flag!
 + `cat /flag.txt`: Outputs the contents of the flag.txt file.
 
 ![FLAG](https://user-images.githubusercontent.com/105746327/194949081-ede78965-89cc-443a-a8c9-862f21e10d35.jpg)
+
+</details>
