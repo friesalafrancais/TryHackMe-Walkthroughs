@@ -1,8 +1,8 @@
 # [RootMe](https://tryhackme.com/room/rrootme)
 
 > Difficulty: Easy
-
-> Open the necessary task below!
+>
+> "A ctf for beginners, can you root me?"
 
 <details>
   <summary>Task 1</summary>
