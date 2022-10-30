@@ -161,6 +161,8 @@ This is due to UNATCO not being listed in our `/etc/hosts/` file. Remember that 
 ![image](https://user-images.githubusercontent.com/115602464/198856208-5488ce21-14c2-4527-a831-9c6676b0ed8d.png)
 
 Now our program should work!
+
+# Wireshark
   
 Wireshark allows us to analyze traffic entering/exiting our machine. We we use it to understand what the program is doing.
   
@@ -177,23 +179,25 @@ Open up the packet. Inside the info box below, open up `Hypertext Transfer Proto
 ![image](https://user-images.githubusercontent.com/115602464/198856509-90f9d550-de61-4240-bcaa-4d83d2e9321a.png)
   
 Everything looks normal here besides the Clearance-Code and the Directive form item. It looks like the Clearence-Code is being sent by the program to get authorized access. It then uses the directive key to run a command, in this case it is `cat /var/www/html/badactors.txt`.
-  
-We need to get our own authorized access. Lets open up [Burp Suite](https://portswigger.net/burp).
-  
-Once Burp Suite is open, select the Proxy tab and make sure intercept is on. Open up firefox and eanble foxyproxy addon.
-  
-![image](https://user-images.githubusercontent.com/115602464/198856799-60654833-5ee8-473a-9b3d-19a5d9131bd3.png)
 
-We want to visit `targetmachineIP:23023` on firefox. If your foxyproxy is enabled you should see something similar to this in your proxy tab.
-
-![image](https://user-images.githubusercontent.com/115602464/198856826-2656db9a-113a-4784-aa95-2333402b38bd.png)
-
-Right click on the packet and select "Send to Repeater" and head over to the Repeater tab.
-
-Right click on the packet within Repeater and select "Change request method". This will turn our GET request into a POST request.
+# Curl
   
-Send the packet and see what we get in return!
+We will craft our own request using [curl](https://linux.die.net/man/1/curl).
   
+`curl -H 'Clearance-Code: yourswillgohere' -d 'directive=whoami' targetmachineIP:23023`
+
++ `curl`: a tool used to transfer data to/from a server.
++ `-H`: used to provide headers. In this case, we are adding the Clearance-Code to the header.
++ `-d`: Specifies the data we want sent. Usable in POST requests. In this case, we are sending the directive "whoami"
   
+![image](https://user-images.githubusercontent.com/115602464/198857463-82009970-0d9c-4263-98dc-511254c9d68e.png)
+
+We can see that our curl request works successfully! The whoami command returns `root'. Since we are able to execute commands as root, lets peak into the root directory. Change your curl request to include the directive `ls /root`.
+  
+![image](https://user-images.githubusercontent.com/115602464/198857496-b4b14527-1831-43ca-b9d3-12e03b63475b.png)
+
+We found root.txt! Run the curl command again, except this time change out `ls /root` with `cat /root/root.txt`.
+  
+Congratulations! 🚩
 
 </details>
