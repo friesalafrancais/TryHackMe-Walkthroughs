@@ -178,7 +178,7 @@ You should have two packets. Select the one that has your machines IP as the sou
 
 Open up the packet. Inside the info box below, open up `Hypertext Transfer Protocol` and `HTML Form URL Encoded`.
   
-![image](https://user-images.githubusercontent.com/115602464/198856509-90f9d550-de61-4240-bcaa-4d83d2e9321a.png)
+![image](https://user-images.githubusercontent.com/115602464/198893492-f894d84e-11fc-458c-84d5-571a937cb55b.png)
   
 Everything looks normal here besides the Clearance-Code and the Directive form item. It looks like the Clearence-Code is being sent by the program to get authorized access. It then uses the directive key to run a command, in this case it is `cat /var/www/html/badactors.txt`.
 
@@ -192,11 +192,11 @@ We will craft our own request using [curl](https://linux.die.net/man/1/curl).
 + `-H`: used to provide headers. In this case, we are adding the Clearance-Code to the header.
 + `-d`: Specifies the data we want sent. Usable in POST requests. In this case, we are sending the directive "whoami"
   
-![image](https://user-images.githubusercontent.com/115602464/198857463-82009970-0d9c-4263-98dc-511254c9d68e.png)
+![image](https://user-images.githubusercontent.com/115602464/198893383-54ef5894-1e18-430e-b3f3-4dd42d8c2a51.png)
 
 We can see that our curl request works successfully! The whoami command returns `root`. Since we are able to execute commands as root, lets peak into the root directory. Change your curl request to include the directive `ls /root`.
   
-![image](https://user-images.githubusercontent.com/115602464/198857496-b4b14527-1831-43ca-b9d3-12e03b63475b.png)
+![image](https://user-images.githubusercontent.com/115602464/198893414-b7a794da-5167-4ab6-9856-da21ac3a26b0.png)
 
 We found root.txt! Run the curl command again, except this time change out `ls /root with `cat /root/root.txt`.
   
