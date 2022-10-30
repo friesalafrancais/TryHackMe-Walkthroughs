@@ -2,7 +2,7 @@
 
 > Difficulty: Easy
 > 
-> Are you able to compromise this Terminator themed machine?
+> "Are you able to compromise this Terminator themed machine?"
 
 <details>
   <summary>Scanning</summary>
