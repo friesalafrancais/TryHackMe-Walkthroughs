@@ -1,4 +1,4 @@
-# [RootMe](https://tryhackme.com/room/dx1libertyislandplde)
+# [DX1: Libery Island](https://tryhackme.com/room/dx1libertyislandplde)
 
 > Difficulty: Easy
 
