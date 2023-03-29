@@ -29,11 +29,11 @@
 
   ## Nmap
   
-  Running an NMAP scan we can see SMB shares
+  Running an [NMAP](https://linux.die.net/man/1/nmap) scan we can see SMB shares
   
     nmap -sV TARGETIP
   
-  + `nmap`: Runs various scans against targets to gain information such as which ports are open, services running, etc. [More Info](https://linux.die.net/man/1/nmap)
+  + `nmap`: Runs various scans against targets to gain information such as which ports are open, services running, etc.
   + `-sV`: Finds open ports, services running, service versions.
   
   ![image](https://user-images.githubusercontent.com/115602464/227737080-399b2f3a-c4bd-4f76-871b-c0b6d4729363.png)
@@ -48,7 +48,7 @@
   
   ## WPScan
   
-  Lets enumerate wordpress using WPScan.
+  Lets enumerate wordpress using [WPScan](https://wpscan.com/wordpress-security-scanner).
   
     wpscan --url blog.thm --enumerate u
   
@@ -112,7 +112,7 @@
   
   ## SUID
   
-  Looking around we can see we have an SUID permission set for a strange program called `checker`.
+  Looking around we can see we have an [SUID permission](https://linuxhandbook.com/suid-sgid-sticky-bit/) set for a strange program called `checker`.
   
   
   ![image](https://user-images.githubusercontent.com/115602464/227744419-68d16194-e123-4b26-be93-576878c01418.png)
@@ -121,7 +121,7 @@
   
   ## LTrace
   
-  If we run ltrace on checker it seems its checking an admin environment variable. 
+  If we run [ltrace](https://linux.die.net/man/1/ltrace) on checker it seems its checking an admin environment variable.
   
   ![image](https://user-images.githubusercontent.com/115602464/227745370-6e5dfcf8-beac-4c57-b2b8-b210f30b86e5.png)
 
